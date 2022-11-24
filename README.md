@@ -202,6 +202,43 @@ Defaults to `true`.
 **Required**.
 The version of terraform to install and use (e.g. `1.2.1`).
 
+## Terraform Format
+
+This is used to ensure formatting on PRs. It is not included in the standard workflow.
+It will fail if `terraform fmt` has any changes and create a PR with the changes to fix formatting with your PR as the target.
+The formatting is recursive, so you can use one action for the entire repo.
+
+Sample yaml file:
+```yaml
+# .github/workflows/terraform-format.yml
+name: terraform-format
+
+on:
+  pull_request:
+    paths:
+      - 'terraform/**'
+      - '.github/workflows/terraform-format.yml'
+jobs:
+  call-workflow:
+    uses: Brightspace/terraform-workflows/.github/workflows/format.yml@v3
+    with:
+      terraform_version: 0.14.4
+      base_path: '.'
+
+
+```
+
+#### Inputs
+##### `terraform_version` (`string`)
+
+**Required**.
+The version of terraform to install and use (e.g. `1.2.1`).
+
+##### `base_path` (`string`)
+
+**Required**.
+The path from which terraform fmt will run (e.g. `terraform` or `.`)
+
 
 ## Migrating from v2
 
